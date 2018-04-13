@@ -3,7 +3,7 @@ function [] = MD2D( varargin)%[r, v]
 %   Detailed explanation goes here
 %Units discussion: Force: ev/Angstrom, position is in angstroms (10^-10 m),
 %
-saveDir = '/backupDisk1/mdtestBench'
+saveDir = '~/backupDisk1/mdtestBench'
 mkdir(saveDir)
 mkdir(strcat(saveDir,'/control'))
 mkdir(strcat(saveDir,'/sparsify'))
