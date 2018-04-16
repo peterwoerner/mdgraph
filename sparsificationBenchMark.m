@@ -1,4 +1,4 @@
-for i = 1:12
+for i = 1:10
     r = Lattice2D(1, [i*5+20, i*5+20], 'sq2');
     r = GenerateHole(r, [i*5+20/2-0.25,i*5+20/2-0.25], 5);
     [natom(i), ~] = size(r)

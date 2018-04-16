@@ -25,14 +25,13 @@ epsilon = 1;
 sigma = 1;
 omega0 = sqrt(72*epsilon/m/sigma^2/2^(1/3)); %approximate frequency of vibrations
 tf = 20/omega0;
-
 h = 2e-4;
 % while h > 1/omega0/10
 %     h = h/10;
 % end
 t = 0:h:tf;
 [ ~, Nt] = size(t)
-Nt = 500
+Nt = 1
 clear t
 %mex forceCalcC.c
 %mex forceCalcLJ.c
@@ -51,13 +50,13 @@ for jjjjj = 1:1
         updateFrequency = 500;%ceil(0.5/omega0/h);        
     else
         coulombMethod = 'threshold'
-        coulombCut = 1e5;
+        coulombCut = 1e5
         updateFrequency = 0;
    end
 %     coulombMethod = 'compare'
 %     coulombCut = 15.0;
 %     updateFrequency = pi;%ceil(0.5/omega0/h); 
-    for iiiii = 1:7
+    for iiiii = 1:6
     
         %% Initialize Run
         clear r
@@ -107,7 +106,6 @@ for jjjjj = 1:1
             coulombList = LJlist;
         else
             updatePairList();
-            coulombList = AdjtoList(coulombList);
         end
         timeS{jjjjj}(iiiii) = toc -time1
         timeStart{jjjjj}(iiiii) = toc
@@ -125,7 +123,7 @@ for jjjjj = 1:1
         %aljx = aljx*0;
         %aljy = aljy*0;
         tic
-        [acx, acy] = forceCalcCList(r, full(coulombList), q, paramC.k);
+        [acx, acy] = forceCalcC(r, full(coulombList), q, paramC.k);
         
 %         %%% Calculate First Error
 %         [fullcx, fullcy] = forceCalcC(r, ones(Na)-eye(Na), q, paramC.k);
@@ -146,7 +144,7 @@ for jjjjj = 1:1
              a = forceCF*f./m;
              r = r + v*h + 1/2*a*h^2;
              %[aljx, aljy] = forceCalcLJ(r, full(LJlist), epsilon, sigma);            
-             [acx, acy] = forceCalcCList(r, full(coulombList), q, paramC.k);
+             [acx, acy] = forceCalcC(r, full(coulombList), q, paramC.k);
              
              %f2 = transpose([sum(aljx); sum(aljy)]) + transpose([sum(acx); sum(acy)]);
              f2 = transpose([sum(acx); sum(acy)]);   
@@ -161,7 +159,7 @@ for jjjjj = 1:1
 %                 saveDataFunc()
 %              end
 
-%              applyDirichlet()
+             applyDirichlet()
              f = f2;
 %              if rem(i,250) == 0
 %                if jjjjj == 4
@@ -213,9 +211,8 @@ for jjjjj = 1:1
     %    figure
     %    hist(el)
     %end
-
-    times{jjjjj}(iiiii) = toc;
     [sizes(iiiii),~] = size(r);
+    times{jjjjj}(iiiii) = toc;
     edges{jjjjj}(iiiii) = nnz(coulombList);
     toc
     if jjjjj == 4

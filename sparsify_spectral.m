@@ -8,7 +8,6 @@ if epsilon <= 0
 else
     A = full(A);
     %% Initializing Parameters
-    tic
     N        = length(A);                     % Number of vortices
     A        = (A + A')/2;                    % make adjacency matrix symmetric 
     L        = diag(sum(A))-A;                % Laplacian Matrix
@@ -17,7 +16,7 @@ else
     L = [];                                   % delete variable (save memory)
 
     %% Calculate Effective resistance
-    
+    tic
     [pp,qq]= ind2sub([N,N],edges1);           % index numbers of edge
     Re     = zeros(length(edges1),1);         % effective resistance
     we     = zeros(length(edges1),1);         % weights of original graph
